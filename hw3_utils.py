@@ -125,8 +125,6 @@ def split_crosscheck_groups(dataset, num_folds):
         with open(fold_name, 'wb') as fold_file:
             pickle.dump(current_fold, fold_file)
 
-    #TODO : remove later
-    print ("Done creating folds")
 
 def evaluate(classifier_factory, k):
     '''

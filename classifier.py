@@ -1,4 +1,5 @@
 import hw3_utils as utils
+from sklearn import tree
 
 class knn_classifier(utils.abstract_classifier):
     def __init__(self, data, labels, k):
@@ -33,6 +34,12 @@ class knn_classifier(utils.abstract_classifier):
         else:
             return False
 
+class TreeClassifier():
+    def __init__(self, DecisionTree):
+        self.dtc = DecisionTree
+
+    def classify(self, feature_vector):
+        return self.dtc.predict([feature_vector])
 
 class knn_factory(utils.abstract_classifier_factory):
     def __init__(self, k):
@@ -40,6 +47,13 @@ class knn_factory(utils.abstract_classifier_factory):
 
     def train(self, data, labels):
         return knn_classifier(data, labels, k)
+
+
+class DecisionTree_factory(utils.abstract_classifier_factory):
+    def train(self, data, labels):
+        dtc = tree.DecisionTreeClassifier()
+        dtc = dtc.fit(data, labels)
+        return TreeClassifier(dtc)
 
 
 # Section 6
