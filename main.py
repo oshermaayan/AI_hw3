@@ -1,4 +1,5 @@
-import hw3_utils as utils
+import hw3_utils
+import our_utils as utils
 from classifier import *
 
 from sklearn import tree
