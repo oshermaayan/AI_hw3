@@ -2,9 +2,14 @@ import math
 import pickle
 import numpy as np
 
+# TODO: probably remove this method later
+def load_data_fold(path):
+    with open(path,'rb') as f:
+        train_features, train_labels = pickle.load(f)
+    return train_features, train_labels
+
 def euclidean_distance(x, y):
     '''
-
     :param x: first vector of features
     :param y: second vector of features
     :return: the euclidean distance between the two vectors
@@ -15,7 +20,7 @@ def euclidean_distance(x, y):
     for f1, f2 in zip(x, y):
         result += (f1-f2)**2
 
-    return math.sqrt(result)
+    return math.sqrt(result) #was: result**0.5
 
 def split_crosscheck_groups(dataset, num_folds):
     '''
