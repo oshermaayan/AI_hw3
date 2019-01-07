@@ -1,4 +1,6 @@
 import math
+import pickle
+import numpy as np
 
 def euclidean_distance(x, y):
     '''
