@@ -1,5 +1,6 @@
 import hw3_utils as utils
 from sklearn import tree
+from sklearn.linear_model import Perceptron
 
 class knn_classifier(utils.abstract_classifier):
     def __init__(self, data, labels, k):
@@ -41,6 +42,13 @@ class TreeClassifier():
     def classify(self, feature_vector):
         return self.dtc.predict([feature_vector])
 
+class PerceptronClassifier():
+    def __init__(self, percpetron_classifier):
+        self.clf = percpetron_classifier
+
+    def classify(self, feature_vector):
+        return self.clf.predict([feature_vector])
+
 class knn_factory(utils.abstract_classifier_factory):
     def __init__(self, k):
         self.k = k
@@ -54,6 +62,11 @@ class DecisionTree_factory(utils.abstract_classifier_factory):
         dtc = tree.DecisionTreeClassifier()
         dtc = dtc.fit(data, labels)
         return TreeClassifier(dtc)
+
+class Perceptron_factory(utils.abstract_classifier_factory):
+    def train(self, data, labels):
+        clf = Perceptron.fit(data, labels)
+        return clf
 
 
 # Section 6
