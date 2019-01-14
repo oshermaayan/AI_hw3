@@ -1,7 +1,6 @@
 import math
 import pickle
 import numpy as np
-
 # TODO: probably remove this method later
 def load_data_fold(path):
     with open(path,'rb') as f:
