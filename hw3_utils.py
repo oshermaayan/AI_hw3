@@ -16,13 +16,6 @@ def load_data(path=r'data/Data.pickle'):
         train_features, train_labels, test_features = pickle.load(f)
     return train_features, train_labels ,test_features
 
-
-# TODO: probably remove this method later
-def load_data_fold(path):
-    with open(path,'rb') as f:
-        train_features, train_labels = pickle.load(f)
-    return train_features, train_labels
-
 def write_prediction(pred, path='results.data'):
     '''
     write the prediction of the test set into a file for submission
