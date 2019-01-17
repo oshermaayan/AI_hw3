@@ -202,6 +202,8 @@ for sample in test_set:
     else:
         predictions.append(False)
 
+
+print(np.where(np.array(predictions)==False)[0].shape)
 utils.write_prediction(predictions)
 
 
