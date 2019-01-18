@@ -88,7 +88,7 @@ class Perceptron_factory(utils.abstract_classifier_factory):
 
 class Svm_factory(utils.abstract_classifier_factory):
     def train(self, data, labels):
-        clf = SVC(gamma='auto')
+        clf = SVC(gamma='auto', kernel='rbf')
         clf = clf.fit(data, labels)
         return SvmClassifier(clf)
 
@@ -168,10 +168,52 @@ def preprocess_set(fold_path, fold_num, preproc_func, prefix):
     with open(fold_name, 'wb') as fold_file:
         pickle.dump((normalized_fold, labels), fold_file)
 
+def train_model_and_classify_test():
+    training_set, labels, test_set = utils.load_data(r'Shuffled_scaled_data.data')
+    training_set_pca, labels_pca, test_set_pca = utils.load_data(r'Shuffled_scaled_PCA_data.data')
+    # r'Shuffled_scaled_PCA_data.data'
+    # Create classifier and train them
+    svm = Svm_factory()
+    svm = svm.train(training_set, labels)
+
+    tree_classifier = DecisionTree_factory()
+    tree_classifier = tree_classifier.train(training_set, labels)
+
+    knn_7 = knn_factory(7)
+    knn_7 = knn_7.train(training_set, labels)
+
+    knn_9 = knn_factory(9)
+    knn_9 = knn_9.train(training_set, labels)
+
+    knn_11 = knn_factory(11)
+    knn_11 = knn_11.train(training_set, labels)
+
+    # Predictions for test set
+    predictions = []
+        #[svm.classify(sample) for sample in training_set_pca]
+
+    for sample, sample_with_pca in zip(test_set, test_set_pca):
+        #sample, sample_with_pca in zip(training_set, training_set_pca):
+        counter = 0
+        counter += 1 if svm.classify(sample) else 0
+        counter += 1 if tree_classifier.classify(sample) else 0
+        counter += 1 if knn_7.classify(sample) else 0
+        #counter += 1 if knn_9.classify(sample) else 0
+        #counter += 1 if knn_11.classify(sample) else 0
+        if counter > 1:
+            predictions.append(True)
+        else:
+            predictions.append(False)
+
+    print(np.where(np.array(predictions) == False)[0].shape)
+    #utils.write_prediction(predictions)
 
 #Main
-training_set, labels, test_set = utils.load_data(r'Shuffled_scaled_PCA_data.data')
-
+#train_model_and_classify_test()
+run_knn()
+'''
+training_set, labels, test_set = utils.load_data()
+#r'Shuffled_scaled_PCA_data.data'
 #Create classifier and train them
 svm = Svm_factory()
 svm = svm.train(training_set, labels)
@@ -189,8 +231,9 @@ knn_11 = knn_factory(11)
 knn_11 = knn_11.train(training_set, labels)
 
 #Predictions for test set
-predictions = []
-for sample in test_set:
+predictions = [svm.classify(sample) for sample in training_set]
+
+for sample in training_set:
     counter = 0
     counter += 1 if svm.classify(sample) else 0
     counter += 1 if tree_classifier.classify(sample) else 0
@@ -204,8 +247,8 @@ for sample in test_set:
 
 
 print(np.where(np.array(predictions)==False)[0].shape)
-utils.write_prediction(predictions)
-
+#utils.write_prediction(predictions)
+'''
 
 #preprocess_set("ecg_fold_0.data",0, scale_data, "ecg_fold_scaled_")
 #preprocess_set("ecg_fold_1.data",1, scale_data, "ecg_fold_scaled_")
