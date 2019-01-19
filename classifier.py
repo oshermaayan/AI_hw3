@@ -1,13 +1,12 @@
 import hw3_utils as utils
-from sklearn import tree
-from sklearn.linear_model import Perceptron
-from sklearn.tree import DecisionTreeClassifier
-import sklearn.preprocessing
 import our_utils
 import pickle
 import numpy as np
+import sklearn.preprocessing
+from sklearn import tree
+from sklearn.linear_model import Perceptron
 from sklearn.svm import SVC
-import graphviz
+
 
 
 class knn_classifier(utils.abstract_classifier):

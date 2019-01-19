@@ -112,6 +112,7 @@ def evaluate_choose_folds(classifier_factory, k, fold_prefix,
 
     :param classifier_factory: creates classifiers
     :param k: number of folds
+    :param fold_prefix: the prefix is used to choose specific fold files (by their name)
     :param scale_data: should data be scaled (zero mean, unit std)
     :return:
     '''

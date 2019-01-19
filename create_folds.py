@@ -1,7 +1,5 @@
 import hw3_utils
-import our_utils
 import random
-#from classifier import *
 import pickle
 from sklearn.decomposition import PCA
 import sklearn.preprocessing
