@@ -1,0 +1,25 @@
+K=1: Accuracy on original set:0.9629519038076152
+K=1: Accuracy on new/transformed set:0.8378156312625251
+K=3: Accuracy on original set:0.9549478957915831
+K=3: Accuracy on new/transformed set:0.8468396793587174
+K=5: Accuracy on original set:0.9469438877755512
+K=5: Accuracy on new/transformed set:0.8548577154308616
+K=7: Accuracy on original set:0.9449418837675351
+K=7: Accuracy on new/transformed set:0.8628657314629258
+K=13: Accuracy on original set:0.937937875751503
+K=13: Accuracy on new/transformed set:0.872881763527054
+
+
+---------------------
+Comparison of scaled, shuffled dataset - with and without PCA (with n=10)
+Note that this is a RESHUFFLED dataset which isn't identical to the one above
+K=1: Accuracy on original set, NO PCA:0.8318036072144288
+K=1: Accuracy on new/transformed set WITH PCA:0.8438216432865732
+K=3: Accuracy on original set, NO PCA:0.8628777555110221
+K=3: Accuracy on new/transformed set WITH PCA:0.8618657314629259
+K=5: Accuracy on original set, NO PCA:0.8748877755511022
+K=5: Accuracy on new/transformed set WITH PCA:0.872881763527054
+K=7: Accuracy on original set, NO PCA:0.8738897795591183
+K=7: Accuracy on new/transformed set WITH PCA:0.8738837675350701
+K=13: Accuracy on original set, NO PCA:0.8798817635270542
+K=13: Accuracy on new/transformed set WITH PCA:

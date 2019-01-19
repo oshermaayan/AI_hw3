@@ -57,11 +57,3 @@ class abstract_classifier:
         '''
         raise Exception('Not implemented')
 
-
-
-
-'''
-dataset = load_data()
-split_crosscheck_groups(dataset,2)
-'''
-

@@ -138,16 +138,16 @@ def run_knn():
     # preprocess_set("ecg_fold_0.data",0, scale_data, "ecg_fold_scaled_")
     # preprocess_set("ecg_fold_1.data",1, scale_data, "ecg_fold_scaled_")
 
-    shuffled_prefix = "ecg_fold_shuffled_"
-    scaled_prefix = "ecg_fold_scaled_"
+    no_pca_prefix = "ecg_fold_final_noPca_"
+    pca_prefix = "ecg_fold_final_pca_"
 
     for k in [1, 3, 5, 7, 13]:
         clf = knn_factory(k)
-        accuracy, error = our_utils.evaluate_choose_folds(clf, 2, scaled_prefix)
-        print("K={k}: Accuracy on original set:{acc}".format(k=k, acc=accuracy))
+        accuracy, error = our_utils.evaluate_choose_folds(clf, 2, no_pca_prefix)
+        print("K={k}: Accuracy on original set, NO PCA:{acc}".format(k=k, acc=accuracy))
 
-        accuracy, error = our_utils.evaluate_choose_folds(clf, 2, shuffled_prefix, scale_data=True)
-        print("K={k}: Accuracy on new/transformed set:{acc}".format(k=k, acc=accuracy))
+        accuracy, error = our_utils.evaluate_choose_folds(clf, 2, pca_prefix)
+        print("K={k}: Accuracy on new/transformed set WITH PCA:{acc}".format(k=k, acc=accuracy))
 
 def run_svm():
     shuffled_prefix = "ecg_fold_shuffled_"
@@ -177,30 +177,30 @@ def train_model_and_classify_test():
     svm = svm.train(training_set, labels)
 
     tree_classifier = DecisionTree_factory()
-    tree_classifier = tree_classifier.train(training_set, labels)
+    tree_classifier = tree_classifier.train(training_set_pca, labels_pca)
 
     knn_7 = knn_factory(7)
-    knn_7 = knn_7.train(training_set, labels)
+    knn_7 = knn_7.train(training_set_pca, labels_pca)
 
     knn_9 = knn_factory(9)
-    knn_9 = knn_9.train(training_set, labels)
+    knn_9 = knn_9.train(training_set_pca, labels_pca)
 
     knn_11 = knn_factory(11)
-    knn_11 = knn_11.train(training_set, labels)
+    knn_11 = knn_11.train(training_set_pca, labels_pca)
 
     # Predictions for test set
     predictions = []
-        #[svm.classify(sample) for sample in training_set_pca]
+        #[svm.classify(sample) for sample in test_set]
 
     for sample, sample_with_pca in zip(test_set, test_set_pca):
         #sample, sample_with_pca in zip(training_set, training_set_pca):
         counter = 0
         counter += 1 if svm.classify(sample) else 0
-        counter += 1 if tree_classifier.classify(sample) else 0
-        counter += 1 if knn_7.classify(sample) else 0
-        #counter += 1 if knn_9.classify(sample) else 0
-        #counter += 1 if knn_11.classify(sample) else 0
-        if counter > 1:
+        counter += 1 if tree_classifier.classify(sample_with_pca) else 0
+        counter += 1 if knn_7.classify(sample_with_pca) else 0
+        counter += 1 if knn_9.classify(sample_with_pca) else 0
+        counter += 1 if knn_11.classify(sample_with_pca) else 0
+        if counter > 3:
             predictions.append(True)
         else:
             predictions.append(False)
@@ -209,71 +209,15 @@ def train_model_and_classify_test():
     #utils.write_prediction(predictions)
 
 #Main
-#train_model_and_classify_test()
-run_knn()
-'''
-training_set, labels, test_set = utils.load_data()
-#r'Shuffled_scaled_PCA_data.data'
-#Create classifier and train them
-svm = Svm_factory()
-svm = svm.train(training_set, labels)
 
-tree_classifier = DecisionTree_factory()
-tree_classifier = tree_classifier.train(training_set, labels)
+#dataset_pca = utils.load_data('Shuffled_scaled_PCA_data.data')
+#our_utils.split_crosscheck_groups(dataset_pca, 2)
+#run_knn()
 
-knn_7 = knn_factory(7)
-knn_7 = knn_7.train(training_set, labels)
-
-knn_9 = knn_factory(9)
-knn_9 = knn_9.train(training_set, labels)
-
-knn_11 = knn_factory(11)
-knn_11 = knn_11.train(training_set, labels)
-
-#Predictions for test set
-predictions = [svm.classify(sample) for sample in training_set]
-
-for sample in training_set:
-    counter = 0
-    counter += 1 if svm.classify(sample) else 0
-    counter += 1 if tree_classifier.classify(sample) else 0
-    counter += 1 if knn_7.classify(sample) else 0
-    counter += 1 if knn_9.classify(sample) else 0
-    counter += 1 if knn_11.classify(sample) else 0
-    if counter > 2:
-        predictions.append(True)
-    else:
-        predictions.append(False)
-
-
-print(np.where(np.array(predictions)==False)[0].shape)
-#utils.write_prediction(predictions)
-'''
-
-#preprocess_set("ecg_fold_0.data",0, scale_data, "ecg_fold_scaled_")
-#preprocess_set("ecg_fold_1.data",1, scale_data, "ecg_fold_scaled_")
-'''
-shuffled_prefix = "ecg_fold_shuffled_"
-clf = knn_factory(9)
-accuracy, error = our_utils.evaluate_choose_folds(clf, 2, shuffled_prefix, use_pca=False, scale_data=True,
-                                                      pca_comp_num=3)
-
-print("Accuracy on new/transformed set:{acc}".format(acc=accuracy))
+train_model_and_classify_test()
 
 
 
-print("Done")
-
-'''
-
-#run_section6()
-#run_section7()
-#try_tree_improvements()
-'''
-#normalize_set("ecg_fold_0_sub.data",0)
-#normalize_set("ecg_fold_1_sub.data",1)
-
-'''
 
 
 

@@ -4,7 +4,7 @@ import numpy as np
 import sklearn.preprocessing
 from sklearn.decomposition import PCA
 
-# TODO: probably remove this method later
+
 def load_data_fold(path):
     with open(path,'rb') as f:
         train_features, train_labels = pickle.load(f)
@@ -63,7 +63,7 @@ def split_crosscheck_groups(dataset, num_folds):
 
         #Save fold
         current_fold = (current_features, current_tags)
-        fold_name = "ecg_fold_shuffled_{fold}.data".format(fold=f)
+        fold_name = "ecg_fold_final_pca_{fold}.data".format(fold=f)
         with open(fold_name, 'wb') as fold_file:
             pickle.dump(current_fold, fold_file)
 
